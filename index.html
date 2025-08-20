@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador Cargill</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" href="cargill_logo.jfif" type="image/png">
+</head>
+<body>
+    <div class="search-container" role="search" aria-label="Buscador Cargill de PDV">
+        <h1 class="searchTitle"id="searchTitle">Búsqueda datos Cargill</h1>
+
+        <div style="text-align: center; margin-bottom: 15px;">
+            <label class="switch">
+                <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+                <span class="slider"></span>
+            </label>
+            <span id="darkModeLabel">🌙 Modo oscuro</span>
+        </div>
+
+        <select id="searchType" onchange="updatePlaceholder()">
+            <option value="pdv">Buscar PDV</option>
+            <!-- <option value="producto">Buscar Producto</option> -->
+        </select>
+
+        <input type="text" id="searchInput" placeholder="Ingresa el nombre PDV" oninput="handleInput()" aria-label="Campo de búsqueda">
+
+        <div id="results"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+</body>
+</html>
+<!-- Forzar deploy limpio -->
