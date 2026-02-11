@@ -8,9 +8,23 @@ const PDV_URL = 'https://cargill-production.up.railway.app/api/cargill/pdv';
 
 async function loadData() {
     try {
+        console.log('🔄 Cargando datos desde:', PDV_URL);
+        
         if (!allData.pdv.length) {
-            const pdvResponse = await fetch(PDV_URL);
+            const pdvResponse = await fetch(PDV_URL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            // ⭐ Verifica si la respuesta fue exitosa
+            if (!pdvResponse.ok) {
+                throw new Error(`Error HTTP: ${pdvResponse.status} - ${pdvResponse.statusText}`);
+            }
+            
             const json = await pdvResponse.json();
+            console.log('✅ Datos cargados:', json.result?.length || 0, 'registros');
             allData.pdv = json.result || [];
         }
 
@@ -22,10 +36,27 @@ async function loadData() {
 
         updatePlaceholder();
     } catch (error) {
-        console.error("Error al cargar datos:", error);
+        console.error("❌ Error completo:", error);
+        
+        // ⭐ Mensaje de error más específico
+        let errorMessage = 'No se pudo cargar la información. ';
+        
+        if (error.message.includes('Failed to fetch')) {
+            errorMessage += 'El servidor no responde. Verifica que Railway esté activo.';
+        } else if (error.message.includes('CORS')) {
+            errorMessage += 'Error de permisos CORS. Contacta al administrador.';
+        } else if (error.message.includes('HTTP')) {
+            errorMessage += error.message;
+        } else {
+            errorMessage += 'Error de conexión con el servidor.';
+        }
+        
         document.getElementById('results').innerHTML = `
-            <p style="color:red;"> No se pudo cargar la información. 
-            Es posible que los permisos de CORS o el servidor estén bloqueando la conexión.</p>`;
+            <p style="color:#d32f2f; padding: 20px; background: #ffebee; border-radius: 8px; border-left: 4px solid #d32f2f; margin-top: 20px;">
+                <strong>⚠️ ${errorMessage}</strong><br><br>
+                <small style="color: #666;">Detalles técnicos: ${error.toString()}</small><br><br>
+                <small style="color: #666;">Si el problema persiste, contacta al administrador o verifica que el servidor esté en línea en Railway.</small>
+            </p>`;
     }
 }
 
