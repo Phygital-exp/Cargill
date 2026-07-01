@@ -78,7 +78,7 @@ function updatePlaceholder() {
 function initializeFuse(type) {
     const options = {
         keys: type === 'pdv'
-            ? ['SAP', 'REGION', 'CIUDAD', 'CADENA', 'PDV']
+            ? ['SAP', 'RLT', 'PDV', 'DIRECCION', 'MODELO']
             : ['SAP', 'SUBCATEGORIA', 'REFERENCIA', 'NOM_PRODUCTOS'],
         threshold: 0.3,
     };
@@ -119,17 +119,14 @@ function renderResults(results) {
                         ${nombre}
                     </h3>
                     <div class="tags">
-                        ${result.CIUDAD ? `<span class="tag ciudad">${result.CIUDAD}</span>` : ''}
-                        ${result.CADENA ? `<span class="tag cadena">${result.CADENA}</span>` : ''}
-                        ${result.REGION ? `<span class="tag region">${result.REGION}</span>` : ''}
-                        ${result.SUBCATEGORIA ? `<span class="tag subcategoria">${result.SUBCATEGORIA}</span>` : ''}
+                        ${result.RLT ? `<span class="tag region"><strong>RLT:</strong> ${result.RLT}</span>` : ''}
+                        ${result.MODELO ? `<span class="tag cadena"><strong>Modelo:</strong> ${result.MODELO}</span>` : ''}
                     </div>
                     <ul>
                         <li><strong>SAP:</strong> ${result.SAP}
                             <i class="material-icons copy-icon" role="button" tabindex="0" aria-label="Copiar SAP" onclick="copyToClipboard('${result.SAP}')">content_copy</i>
                         </li>
-                        ${result.CANAL ? `<li><strong>Canal:</strong> ${result.CANAL}</li>` : ''}
-                        ${result.REFERENCIA ? `<li><strong>Referencia:</strong> ${result.REFERENCIA}</li>` : ''}
+                        ${result.DIRECCION ? `<li><strong>Dirección:</strong> ${result.DIRECCION}</li>` : ''}
                     </ul>
                 </div>
             `;
